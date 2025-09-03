@@ -1,13 +1,17 @@
 const express = require("express");
+const morgan = require("morgan");
 const { errorHandling } = require("./middlewares/errorHandling");
 const recipeRoute = require("./routes/recipeRoute");
 const app = express();
 const PORT = 3030;
 
-// app.use(express.static(path.join(__dirname, 'Recipes-Project')))
-
 app.use(express.json());
+
+morgan.token("date", () => new Date().toISOString());
+app.use(morgan(":method :url :status :response-time ms - :date"));
+
 app.use('/api/recipes', recipeRoute);
+
 app.use(errorHandling);
 
 app.listen(PORT,()=>{
