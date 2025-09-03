@@ -1,8 +1,10 @@
 const { v4: uuidv4 } = require('uuid');
-const recipes = require('../DB/fakeDB');
+const { readRecipes, writeRecipes } = require('../data/DataPersistence');
+// const recipes = require('../DB/fakeDB');
 
-function getAllRecipes(filters = {}) {
-  let filteredRecipes = [...recipes];
+async function getAllRecipes(filters = {}) {
+  const recipes = await readRecipes();
+  let filteredRecipes =  [...recipes];
   const { difficulty, maxCookingTime, search } = filters;
 
   if (difficulty) {
@@ -30,33 +32,42 @@ function getAllRecipes(filters = {}) {
   return filteredRecipes;
 }
 
-function getRecipeById(id) {
+async function getRecipeById(id) {
+  const recipes = await readRecipes();
   return recipes.find(r => r.id === id);
 }
 
-function createRecipe(data) {
+async function createRecipe(data) {
+  const recipes = await readRecipes();
   const newRecipe = { id: uuidv4(),...data, createdAt: new Date().toISOString() };
   recipes.push(newRecipe);
+  await writeRecipes(recipes);
   return newRecipe;
 }
 
-function updateRecipe(id, data) {
+async function updateRecipe(id, data) {
+  const recipes = await readRecipes();
   const index = recipes.findIndex(r => r.id === id);
   if (index === -1) return null;
 
   const updated = { ...recipes[index], ...data, id, createdAt: recipes[index].createdAt };
   recipes[index] = updated;
+  await writeRecipes(recipes);
   return updated;
 }
 
-function deleteRecipe(id) {
+async function deleteRecipe(id) {
+  const recipes = await readRecipes();
   const index = recipes.findIndex(r => r.id === id);
   if (index === -1) return false;
+
   recipes.splice(index, 1);
+  await writeRecipes(recipes);
   return true;
 }
 
-function getStats() {
+async function getStats() {
+  const recipes = await readRecipes();
   const totalNumOfRecipes = recipes.length;
   const averageCookingTime = recipes.reduce((sum, r) => sum + r.cookingTime, 0) / (totalNumOfRecipes || 1);
 

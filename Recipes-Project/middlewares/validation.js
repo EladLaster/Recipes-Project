@@ -14,7 +14,7 @@ function validation(req,res,next){
 
     const valid = validatefunc(req.body);
     if(valid)
-        next();
+        return next();
     
     const errors = validatefunc.errors || [];
     
@@ -27,7 +27,7 @@ function validation(req,res,next){
 function validationPut(req, res, next) {
     const valid = validatefuncPut(req.body);
     if(valid)
-        next();
+        return next();
 
     const errors = validatefuncPut.errors || [];
 
