@@ -18,6 +18,9 @@
   "homepage": "https://github.com/EladLaster/Recipes-Project#readme",
   "description": "",
   "dependencies": {
-    "express": "^5.1.0"
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "express": "^5.1.0",
+    "uuid": "^11.1.0"
   }
 }
