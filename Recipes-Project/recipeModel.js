@@ -1,8 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
-// const user = require('./user');
 const db = require('./models');
 const { Recipe, User, UserFavorites } = db;
-// const userFavorites = require('./userFavorites');
 // const recipes = require('../DB/fakeDB');
 // const { readRecipes, writeRecipes } = require('../data/DataPersistence');
 
