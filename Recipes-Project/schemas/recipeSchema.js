@@ -15,7 +15,9 @@ const recipeSchema = {
         servings: { type: "number",
                     "minimum": 1},
         difficulty: { type: "string", enum: ["easy", "medium", "hard"] },
-        rating: { type: "number",minimum: 0, maximum: 5 },
+        imageUrl: { type: "string", format: "uri" },
+        isPublic: { type: "boolean", default: true },
+        userId: { type: "string", format: "uuid" }, 
         createdAt: { type: "string", format: "date-time" }
         },
         required: [ "title", "description","ingredients", "instructions", "cookingTime", "servings", "difficulty"],

@@ -3,7 +3,13 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js",
+    "db:migrate": "sequelize db:migrate",
+    "db:migrate:undo": "sequelize db:migrate:undo",
+    "db:migrate:undo:all": "sequelize db:migrate:undo:all",
+    "db:seed:all": "sequelize db:seed:all",
+    "db:seed:undo:all": "sequelize db:seed:undo:all"
   },
   "repository": {
     "type": "git",
@@ -22,6 +28,8 @@
     "ajv-formats": "^3.0.1",
     "express": "^5.1.0",
     "morgan": "^1.10.1",
+    "mysql2": "^3.14.5",
+    "sequelize": "^6.37.7",
     "uuid": "^11.1.0"
   }
 }

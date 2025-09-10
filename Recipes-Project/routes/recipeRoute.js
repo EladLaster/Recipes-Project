@@ -8,7 +8,7 @@ recipeRoute.get('/stats', recipeController.getStats);
 recipeRoute.get('/:id', recipeController.getRecipe);
 
 recipeRoute.post('/', validation, recipeController.createRecipe);
-recipeRoute.put('/:id', validationPut, recipeController.updateRecipe);
+recipeRoute.put('/:id', recipeController.updateRecipe);
 recipeRoute.delete('/:id', recipeController.deleteRecipe);
 
 module.exports = recipeRoute;
