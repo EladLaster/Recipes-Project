@@ -14,10 +14,15 @@ async function removeFavorite(userId, recipeId) {
 
 async function getFavorites(userId) {
   const user = await User.findByPk(userId, {
-    include: { model: Recipe, as: 'favorites' } 
+    include: {
+      model: Recipe,
+      as: 'favorites',
+      through: { attributes: [] }
+    }
   });
   return user?.favorites || [];
 }
+
 
 
 module.exports = { addFavorite, removeFavorite, getFavorites };
