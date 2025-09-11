@@ -4,6 +4,8 @@ const JWT_SECRET = process.env.JWT_SECRET || 'supersecretkey';
 function authMiddleware(req, res, next) {
   const token = req.header("Authorization")?.split(' ')[1];
 
+  console.log("Authorization header:", req.header("Authorization"));
+
   if(!token) 
         return res.status(401).json({ success: false, message: 'No Token provided' });
 
