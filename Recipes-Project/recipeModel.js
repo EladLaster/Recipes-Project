@@ -5,18 +5,18 @@ const { Recipe, User, UserFavorites } = db;
 // const { readRecipes, writeRecipes } = require('../data/DataPersistence');
 
 
-async function getAllRecipes(filters = {}) {
+async function getAllRecipes(filters = {},userId) {
   // const recipes = await readRecipes();
 
-  const recipes = await Recipe.findAll();
-  
-  let filteredRecipes = recipes.map(r => ({
-    ...r.toJSON(),
-    ingredients: JSON.parse(r.ingredients || '[]'),
-    instructions: JSON.parse(r.instructions || '[]')
-  }));
-
   const { difficulty, maxCookingTime, search } = filters;
+
+  const whereClause = {
+    ...(userId && { userId }),
+    ...(difficulty && { difficulty }),
+    ...(maxCookingTime && { cookingTime: { [Op.lte]: Number(maxCookingTime) } }),
+  };
+
+  let filteredRecipes = await Recipe.findAll({ where: whereClause });
 
   if (difficulty) {
     filteredRecipes = filteredRecipes.filter(
@@ -57,7 +57,7 @@ async function getRecipeById(id) {
   };
 }
 
-async function createRecipe(data) {
+async function createRecipe(data, userId) {
   // const recipes = await readRecipes();
   // const newRecipe = { id: uuidv4(),...data, createdAt: new Date().toISOString() };
   // recipes.push(newRecipe);
@@ -66,6 +66,7 @@ async function createRecipe(data) {
   const newRecipe = await Recipe.create({
   id: uuidv4(),
   ...data,
+  userId,
   ingredients: JSON.stringify(data.ingredients || []),
   instructions: JSON.stringify(data.instructions || [])
 });
@@ -81,7 +82,7 @@ async function createRecipe(data) {
   };
 }
 
-async function updateRecipe(id, data) {
+async function updateRecipe(id, data,userId) {
   // const recipes = await readRecipes();
   // const index = recipes.findIndex(r => r.id === id);
   // if (index === -1) return null;
@@ -93,17 +94,22 @@ async function updateRecipe(id, data) {
 
   if (recipe.length === 0) return null;
 
+  if (recipe[0].userId !== userId) {
+    throw new Error("You are not authorized to update this recipe");
+  }
+
   const updated = await recipe[0].update(data);
 
   return {
     ...updated.toJSON(),
+    userId,
     ingredients: JSON.parse(updated.ingredients || '[]'),
     instructions: JSON.parse(updated.instructions || '[]')
   };
   // return updated;
 }
 
-async function deleteRecipe(id) {
+async function deleteRecipe(id,userId) {
   // const recipes = await readRecipes();
   // const index = recipes.findIndex(r => r.id === id);
   // if (index === -1) return false;
@@ -113,6 +119,10 @@ async function deleteRecipe(id) {
   const recipe = await Recipe.findAll({where:{id}});
 
   if(recipe.length === 0) return null;
+
+  if (recipe[0].userId !== userId) {
+    throw new Error("You are not authorized to delete this recipe");
+  }
 
   await recipe[0].destroy();
 

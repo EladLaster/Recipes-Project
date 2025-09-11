@@ -9,6 +9,10 @@ function authMiddleware(req, res, next) {
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
+
+    if (!decoded.id) 
+      return res.status(401).json({ success: false, message: 'Invalid token payload' });
+    
     req.user = decoded;
     next();
   } catch (error) {

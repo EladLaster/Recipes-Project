@@ -1,4 +1,15 @@
-const Auth = require('../authModel');
+const { getAllUsers } = require('../userModel');
+const Auth = require('../userModel');
+
+async function getUsers(req, res, next) {
+  try {
+    const users = await getAllUsers();
+    if (!users || users.length === 0) return [];
+    res.status(200).json({ success: true, users });
+  } catch (err) {
+    next(err);
+  }
+}
 
 async function login(req, res, next) {
   try {
@@ -43,4 +54,4 @@ async function profile(req, res, next) {
   }
 }
 
-module.exports = { login, register, profile };
+module.exports = { getUsers,login, register, profile };

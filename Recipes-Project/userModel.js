@@ -4,6 +4,14 @@ const db = require('./models');
 const { User } = db;
 const JWT_SECRET = process.env.JWT_SECRET || 'supersecretkey';
 
+async function  getAllUsers() {
+  const users = await User.findAll();
+  
+  let usersJSON = users.map(u => u.toJSON());
+
+  return usersJSON;
+}
+
 async function loginUser(email, password) {
   const user = await User.findOne({ where: { email: email.toLowerCase() } });
   if (!user) return null;
@@ -67,4 +75,4 @@ async function profileUser(userId) {
 }
 
 
-module.exports = { loginUser, registerUser , profileUser};
+module.exports = { getAllUsers,loginUser, registerUser , profileUser};
