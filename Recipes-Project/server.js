@@ -3,6 +3,7 @@ const morgan = require("morgan");
 const { errorHandling } = require("./middlewares/errorHandling");
 const recipeRoute = require("./routes/recipeRoute");
 const userRoute = require("./routes/userRoute");
+const userFavoriteRoute = require("./routes/userFavoriteRoute");
 const app = express();
 const PORT = 3030;
 
@@ -12,6 +13,8 @@ morgan.token("date", () => new Date().toISOString());
 app.use(morgan(":method :url :status :response-time ms - :date"));
 
 app.use('/auth', userRoute)
+
+app.use('/api/users/favorites', userFavoriteRoute);
 
 app.use('/api/recipes', recipeRoute);
 

@@ -1,4 +1,4 @@
-// models/recipe.js
+
 module.exports = (sequelize, DataTypes) => {
   const Recipe = sequelize.define('Recipe', {
     id: {
@@ -34,6 +34,15 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     timestamps: true
   });
+
+  Recipe.associate = models => {
+    Recipe.belongsTo(models.User, { foreignKey: 'userId' });
+    Recipe.belongsToMany(models.User, {
+      through: models.UserFavorites,
+      foreignKey: 'recipeId',
+      as: 'favoritedBy'
+    });
+  };
 
   return Recipe;
 };

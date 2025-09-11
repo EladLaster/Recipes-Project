@@ -1,11 +1,10 @@
-const { v4: uuidv4 } = require('uuid');
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     id: {
       type: DataTypes.UUID,
-      primaryKey: true,
-      defaultValue: uuidv4
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true
     },
     username: {
       type: DataTypes.STRING(30),
@@ -24,6 +23,15 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     timestamps: true
   });
+
+  User.associate = models => {
+    User.hasMany(models.Recipe, { foreignKey: 'userId' });
+    User.belongsToMany(models.Recipe, {
+      through: models.UserFavorites,
+      foreignKey: 'userId',
+      as: 'favorites'
+    });
+  };
 
   return User;
 };
