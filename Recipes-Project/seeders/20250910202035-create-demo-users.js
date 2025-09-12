@@ -1,4 +1,5 @@
 'use strict';
+const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcrypt');
 
 module.exports = {
@@ -7,7 +8,7 @@ module.exports = {
 
     await queryInterface.bulkInsert('Users', [
       {
-        id: "1",
+        id: uuidv4(),
         username: 'elad laster',
         email: 'eladlaster1@walla.com',
         password: hashedPassword,
@@ -17,7 +18,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        id: "2",
+        id: uuidv4(),
         username: 'mor laster',
         email: 'morush@gmail.com',
         password: hashedPassword,

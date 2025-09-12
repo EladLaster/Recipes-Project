@@ -1,10 +1,11 @@
 'use strict';
+const { v4: uuidv4 } = require('uuid');
 
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('Recipes', [
       {
-        id: '1',
+        id: uuidv4(),
         title: 'Pasta Bolognese',
         description: 'Classic pasta with meat sauce',
         ingredients: JSON.stringify(['pasta', 'tomato', 'meat']),
@@ -18,7 +19,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        id: '2',
+        id: uuidv4(),
         title: 'Chocolate Cake',
         description: 'Rich and moist chocolate cake',
         ingredients: JSON.stringify(['flour', 'cocoa powder', 'sugar', 'eggs']),
