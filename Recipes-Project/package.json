@@ -5,11 +5,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js",
-    "db:migrate": "sequelize db:migrate",
-    "db:migrate:undo": "sequelize db:migrate:undo",
-    "db:migrate:undo:all": "sequelize db:migrate:undo:all",
-    "db:seed:all": "sequelize db:seed:all",
-    "db:seed:undo:all": "sequelize db:seed:undo:all"
+    "db:migrate": "npx sequelize db:migrate",
+    "db:migrate:undo": "npx sequelize db:migrate:undo",
+    "db:migrate:undo:all": "npx sequelize db:migrate:undo:all",
+    "db:seed:all": "npx sequelize db:seed:all",
+    "db:seed:undo:all": "npx sequelize db:seed:undo:all"
   },
   "repository": {
     "type": "git",
